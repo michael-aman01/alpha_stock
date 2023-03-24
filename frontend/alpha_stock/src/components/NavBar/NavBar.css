@@ -1,0 +1,13 @@
+#nav-container {
+display: flex;
+justify-content: space-between;
+}
+
+#nav-logo{
+    width: 10%;
+    height: 100%;
+    grid-column-start: 1;
+    background-color: red;
+}
+
+

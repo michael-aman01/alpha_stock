@@ -3,7 +3,8 @@ from flask import request, jsonify, redirect
 from api.models import User
 from flask_login import current_user, login_user, logout_user, login_required
 
-
+#user routes:
+#-----------------------------
 @api.route("/api/users",methods=["GET"])
 def index():
     return "please login"
@@ -26,16 +27,29 @@ def register():
             return jsonify(data)
 
 
-@api.route("/api/users/login",methods=["POST"])
+
+@api.route("/api/users/profile")
+@login_required
+def profile():
+    return "user profile"
+
+
+
+#session routes
+#----------------------------------
+
+
+@api.route("/api/session/login",methods=["POST"])
 def login():
     if current_user.is_authenticated:
-        return "ALREADY LOGGED IN"
+
+        return jsonify({"id":current_user.id, "username":current_user.username, "email":current_user.email, "session_token":current_user.session_token})
     else:
         req = request.json
-        user =User.query.filter_by(email=req["email"], username=req["username"]).first()
+        user =User.query.filter_by(email=req["email"]).first()
         if user and user.is_password(req["password"]):
             login_user(user, remember=True)
-            return "LOGIN SUCCESSFUL"
+            return  jsonify(user)
         else:
             return "INVALID LOGIN"
         
@@ -48,8 +62,3 @@ def logout():
         return "NO USER LOGGED IN"
     
 
-@api.route("/api/users/profile")
-
-@login_required
-def profile():
-    return "user profile"

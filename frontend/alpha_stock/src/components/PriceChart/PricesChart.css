@@ -1,0 +1,20 @@
+#price-chart-container {
+    height: 50%;
+    background-color: black;
+}
+
+#price-canvas {
+    max-height: 600px;
+}
+
+#chart-description-container {
+    display: flex;
+    padding: 10px;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom:10%;
+    justify-content: space-between;
+    font-size: 30px;
+    margin-top: 1%;
+}
+

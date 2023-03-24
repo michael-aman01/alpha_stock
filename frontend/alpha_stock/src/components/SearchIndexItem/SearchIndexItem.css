@@ -1,0 +1,40 @@
+#search-item-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-height: 200px;
+    background-color: black;
+    margin-top: 5%;
+
+}
+
+#search-graph {
+    max-width: 100%;
+    width: 100%;
+    height: 100%;
+
+}
+
+#search-graph-container {
+    width: 33%;
+    height: 10%;
+
+}
+
+#search-item-symbol{
+    width: 33%;
+    background-color: black;
+    color: "white";
+    font-size: 25px;
+    padding: 10px;
+}
+
+#search-item-change{
+    width: 33%;
+    padding: 10px;
+    margin-left: 20px;
+    background-color: black;
+    color: "white";
+    font-size: 25px;
+    text-align: center;
+}
