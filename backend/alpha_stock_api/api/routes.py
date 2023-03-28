@@ -81,11 +81,13 @@ def get_session():
 
     if current_user.is_authenticated:
         token = generate_csrf()
-        user =  jsonify({"watchlist": user.watchlist, "id":current_user.id, "username":current_user.username, "email":current_user.email, "session_token":current_user.session_token})
-        res = make_response(user)
+    
+        res = make_response(jsonify({"watchlist": current_user.watchlist, "id":current_user.id, "username":current_user.username, "email":current_user.email, "session_token":current_user.session_token}))
         res.headers["X-CSRFToken"] = token
+        print(res)
         return  res
     else:
+        print("error")
         return redirect(url_for('login'))
     
 #user routes-------------------------------------------------

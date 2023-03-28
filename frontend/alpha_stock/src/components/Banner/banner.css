@@ -1,0 +1,23 @@
+#banner-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: black;
+    color: white;
+    margin-top: 1%;
+    height: 40px;
+    margin-left: 0%;
+
+}
+
+
+@keyframes transitionAcross {
+    from {margin-left: 0%;}
+    to {margin-left: 100%;}
+}
+.tickerDiv {
+    margin: 10px;
+    overflow-x:visible;
+    white-space: nowrap;
+
+}

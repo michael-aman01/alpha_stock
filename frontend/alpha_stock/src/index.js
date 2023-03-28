@@ -39,7 +39,10 @@ ReactDOM.render(
 
 }
 
-if(sessionStorage.getItem("X-CSRF-Token") === null || sessionStorage.getItem("currentUser") === null){
+if(sessionStorage.getItem("X-CSRF-Token") === null || 
+sessionStorage.getItem("X-CSRF-Token") === undefined ||
+sessionStorage.getItem("X-CSRF-Token") === null|| 
+sessionStorage.getItem("currentUser") === undefined){
   store.dispatch(restoreSession()).then(renderApplication())
 }else{
   renderApplication()

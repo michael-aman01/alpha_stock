@@ -38,7 +38,7 @@ export default function SearchIndex(){
 
         
             <>
-              <div>
+              <div id="right-search-pane">
                     <h1>Search Results</h1>
                 {
                     Object.keys(priceData).map(sym =>  watchlist.includes(sym) !== true ?  

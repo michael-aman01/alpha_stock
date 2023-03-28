@@ -1,3 +1,4 @@
+import Banner from "../Banner"
 import NavOptionsDropdown from "../NavDropDown"
 import Searchbar from "../Searchbar"
 import "./NavBar.css"
@@ -13,6 +14,9 @@ export default function NavBar(){
         
                     <NavOptionsDropdown></NavOptionsDropdown>
            
+            </div>
+            <div style={{"height":"100%"}}>
+              <Banner></Banner>
             </div>
         </>
     )

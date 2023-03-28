@@ -96,7 +96,12 @@ export const logout = user => async dispatch => {
 
 
 export const restoreSession = () =>  async dispatch =>  {
-
+    let token
+    if(sessionStorage.getItem("X-CSRF-Token") === null){
+        token = await restoreCSRF()
+    }else{
+        token = sessionStorage.getItem("X-CSRF-Token") 
+    }
 
     const res = await fetch("/api/session/get_current", {
         method: "GET",
@@ -111,7 +116,7 @@ export const restoreSession = () =>  async dispatch =>  {
         const token = await res.headers.get("X-CSRFToken")
         storeCSRFToken(token)
         storeCurrentUser(data)
-        dispatch(loginUser({"current_user": data}))
+        dispatch(loginUser(data))
         return data
     }
   };
