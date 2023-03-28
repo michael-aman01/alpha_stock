@@ -66,9 +66,7 @@ export default function Searchbar(){
         }
     },[currentQuery])
 
-    useEffect(() => {
-    
-    },[priceData])
+  
 
 
 

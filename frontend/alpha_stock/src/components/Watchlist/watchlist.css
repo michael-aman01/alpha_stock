@@ -1,4 +1,4 @@
-#search-result-container {
+#watchlist-container {
     display: flex;
     height: 100%;
     width: 100%;
@@ -6,7 +6,7 @@
     box-shadow: inset 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
 }
 
-#right-search-pane {
+#left-search-pane {
     
     height: 100%;
     width: 100%;

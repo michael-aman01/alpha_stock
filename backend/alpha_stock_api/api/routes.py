@@ -1,5 +1,5 @@
 from api import api, db
-from flask import request, jsonify, redirect, make_response
+from flask import request, jsonify, redirect, make_response, url_for
 from api.models import User
 from flask_login import current_user, login_user, logout_user, login_required
 from flask_wtf.csrf import CSRFProtect, generate_csrf
@@ -12,7 +12,9 @@ def index():
 
 @api.route("/api/users/register",methods=["POST"])
 def register():
+    
     req = request.json
+    print(req)
     check = User.query.filter_by(email=req["email"], username=req["username"]).all()
     if len(check) > 0:
         return "USER ALREADY EXISTS"
@@ -23,7 +25,7 @@ def register():
             user.ensure_session_token()
             db.session.add(user)
             db.session.commit()
-            data = {"id": user.id, "session_token": user.session_token, "email": user.email}
+            data =  jsonify({"watchlist": user.watchlist, "id":current_user.id, "username":current_user.username, "email":current_user.email, "session_token":current_user.session_token})
             login_user(user)
             return jsonify(data)
 
@@ -49,7 +51,7 @@ def login():
         if user and user.is_password(req["password"]):
             login_user(user)
          
-            response = jsonify({"id":current_user.id, "username":current_user.username, "email":current_user.email, "session_token":current_user.session_token})
+            response =  jsonify({"watchlist": user.watchlist, "id":current_user.id, "username":current_user.username, "email":current_user.email, "session_token":current_user.session_token})
             
             return response
         else:
@@ -75,14 +77,41 @@ def get_csrf():
     
 
 @api.route("/api/session/get_current",methods=["GET"])
-@login_required
 def get_session():
 
     if current_user.is_authenticated:
         token = generate_csrf()
-        user = jsonify({"id":current_user.id, "username":current_user.username, "email":current_user.email, "session_token":current_user.session_token})
+        user =  jsonify({"watchlist": user.watchlist, "id":current_user.id, "username":current_user.username, "email":current_user.email, "session_token":current_user.session_token})
         res = make_response(user)
         res.headers["X-CSRFToken"] = token
         return  res
     else:
-        return {}, 404
+        return redirect(url_for('login'))
+    
+#user routes-------------------------------------------------
+
+@api.route("/api/users/watchlist/<user_id>")
+def get_watchlist(user_id):
+    if current_user.is_authenticated:
+        print(current_user.watchlist)
+        return {"watchlist": current_user.watchlist}
+    
+
+@api.route("/api/users/watchlist/",methods=["POST"])
+def add_to_watchlist():
+    if current_user.is_authenticated:
+        req = request.json
+        user = User.query.filter_by(id=req["id"]).first()
+        print(user.watchlist)
+        # user.watchlist = []
+        new_watchlist = [val for val in user.watchlist] + req["watchlist"]
+        user.watchlist = new_watchlist
+        db.session.add(user)
+        db.session.commit()
+        response =  jsonify({"watchlist": user.watchlist, "id":current_user.id, "username":current_user.username, "email":current_user.email, "session_token":current_user.session_token})
+        return response
+
+    else:
+        print("login requre")
+        return {}
+

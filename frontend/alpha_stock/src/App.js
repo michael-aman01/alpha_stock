@@ -18,7 +18,7 @@ function App() {
   },[currentUser])
 
 
-  if(currentUser){
+
   return (
     <>
      
@@ -32,6 +32,6 @@ function App() {
 
     </>
   )
-}}
+}
 
 export default App;

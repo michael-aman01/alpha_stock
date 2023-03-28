@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 // import StatementChart from "../StatementChart"
 // import Searchbar from "../Searchbar"
 import SearchIndex from "../SearchIndex"
-// import Watchlist from "../Watchlist"
+import Watchlist from "../Watchlist"
 import SearchIndexItem from "../SearchIndexItem"
 import { fetchPriceData } from "../../store/stocks"
 import { compose } from "redux"
@@ -34,28 +34,31 @@ export default function ResearchPage(){
 
     const currentUser = useSelector(state => state.session.currentUser)
 
-    // const [watchlist, setWatchlist] = useState()
-    // const [watchlistPrices, setWatchlistPrices] = useState()
+    const [watchlist, setWatchlist] = useState()
+    const [watchlistPrices, setWatchlistPrices] = useState()
 
 
 
     useEffect(() => {
       
-        if(priceData !== undefined && priceData !== null && info !== undefined){
-            //from price fetch: 
-            setOpen(priceData[0].open.toFixed(2))
-            setHigh(priceData[0].high.toFixed(2))
-            setLow(priceData[0].low.toFixed(2))
-            setVolume(priceData[0].volume.toFixed(2))
-            const yearHigh = priceData.slice(0, 260).map(obj => obj.close)
-            setAnnualHigh(Math.max(...yearHigh).toFixed(2))
-            setAnnualLow(Math.min(...yearHigh).toFixed(2))
-            //from info fetch:
+        if(priceData !== undefined || priceData !== null){
+            try{
+   //from price fetch: 
+   setOpen(priceData[0].open.toFixed(2))
+   setHigh(priceData[0].high.toFixed(2))
+   setLow(priceData[0].low.toFixed(2))
+   setVolume(priceData[0].volume.toFixed(2))
+   const yearHigh = priceData.slice(0, 260).map(obj => obj.close)
+   setAnnualHigh(Math.max(...yearHigh).toFixed(2))
+   setAnnualLow(Math.min(...yearHigh).toFixed(2))
+   //from info fetch:
 
-            setAvgVolume(info.volAvg.toFixed(0))
-            setMarketCap(info.mktCap.toExponential(2))
-            setDivYield(info.lastDiv === undefined ? "N/A": (info.lastDiv/priceData[priceData.length-1].open.toFixed(2)).toFixed(4))
-            setAbout(info.description)
+   setAvgVolume(info.volAvg.toFixed(0))
+   setMarketCap(info.mktCap.toExponential(2))
+   setDivYield(info.lastDiv === undefined ? "N/A": (info.lastDiv/priceData[priceData.length-1].open.toFixed(2)).toFixed(4))
+   setAbout(info.description)
+
+            }catch(err){console.log(err)}
          
 
 
@@ -105,7 +108,7 @@ export default function ResearchPage(){
          <div id="research-container">
          <div id="research-nav-left">
                     <h1>Watch List</h1>
-                    {/* <Watchlist></Watchlist> */}
+                    <Watchlist></Watchlist>
                 </div>
 
                 <div id="research-content-container">

@@ -4,36 +4,52 @@ import { fetchPriceData } from "../../store/stocks";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import PriceChart from "../PriceChart";
+import { fetchWatchlist } from "../../store/stocks";
+import SearchIndexItem from "../SearchIndexItem";
+
+
+
 export default function Watchlist(){
-    const currentUser = useSelector(state => state.session.user)
+    const session = useSelector(state => state.session)
     const priceData = useSelector(state => state.stocks.priceData)
+    const stateStocks = useSelector(state => state.stocks)
     const [prices, setPrices] = useState([])
     const dispatch = useDispatch()
+    const [watchlist, setWatchlist] = useState([])
+    const currentUser = JSON.parse(sessionStorage.getItem("currentUser"))
+    const [watchlistWidgets, setWatchlistWidgets] = useState([])
+
+
     useEffect(() => {
-        if(currentUser !== undefined){
-            let syms = []
-            currentUser.watchlist.forEach(async sym => {
-                let p = await dispatch(fetchPriceData(sym))
-                console.log(priceData[sym])
-                syms.push([sym,priceData[sym]])
-            });
-            setPrices(syms)
+        if(currentUser !== null){
+            setWatchlist(stateStocks.watchlist)
         }
+    },[session])
+
+    useEffect(() => {
+        console.log("from watch",currentUser)
     },[currentUser])
-    if(prices.length > 0){
+
+    useEffect(() => {
+        if(watchlist.length >0 && priceData !== null){
+
+     
+        }
+    },[watchlist])
+
+
+
+
+
     return (
         <>
         {
-            prices.map(arr => 
+            watchlist.map((sym, key) => 
                 <>
                     <div id="search-item-container">
-                        <div id="search-item-symbol">{arr[0]}</div>
-
-                        <PriceChart prices={arr[1]} duration={"1Y"}></PriceChart>
-
-                
-                        <div id="search-item-change" style={{"color":arr[1][0].changePercent > 0 ? "green" : "red"}}>{arr[1].changePercent > 0 ? `+${arr[1].changePercent}%`:`${arr[1][0].changePercent}%`}</div>
-                
+                 
+                            <div>{watchlistWidgets}</div>
+                            
                     </div>
                 </>
             )
@@ -41,4 +57,4 @@ export default function Watchlist(){
 
         </>
     )
-}}
+}

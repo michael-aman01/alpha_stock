@@ -2,24 +2,35 @@ import "./SearchIndex.css"
 import Seachbar from "../Searchbar"
 import SearchIndexItem from "../SearchIndexItem"
 import { useEffect, useState } from "react"
-import {useSelector} from 'react-redux'
-import { getCurrentUser } from "../../store/session"
+import {useSelector,useDispatch} from 'react-redux'
+import { restoreSession } from "../../store/session"
+
 
 export default function SearchIndex(){
     const priceData = useSelector(state => state.stocks.priceData)
     const info = useSelector(state => state.stocks.info)
     const [symbols, setSymbols] = useState([])
-    const currentUser = useSelector(state => state.session.current_user)
+    const currentUser = JSON.parse(sessionStorage.getItem("currentUser"))
     const state = useSelector(state => state)
     const [watchlist, setWatchlist] = useState([])
+    const dispatch = useDispatch()
+
+
+    useEffect(() => {
+        console.log(currentUser)
+   
+    },[currentUser])
 
 
     // useEffect(() => {
    
-    //     setSymbols(Object.keys(priceData))
-    //     setWatchlist(Object.keys(priceData))
+    //     if(Object.keys(priceData) !== symbols){
+    //         setSymbols(Object.keys(priceData))
+    //         setWatchlist(Object.keys(priceData))
+    //     }
+
       
-    // },[priceData, symbols])
+    // },[symbols, priceData])
 
 
 
@@ -30,11 +41,13 @@ export default function SearchIndex(){
               <div>
                     <h1>Search Results</h1>
                 {
-                    symbols.map(sym =>  watchlist.includes(sym) === true ?  
+                    Object.keys(priceData).map(sym =>  watchlist.includes(sym) !== true ?  
          
-                
-                    <SearchIndexItem symbol={sym} price={priceData[sym]} currentUser={currentUser}></SearchIndexItem> 
-            
+                    <>
+                                        <SearchIndexItem symbol={sym} prices={priceData[sym]} currentUser={currentUser}></SearchIndexItem> 
+   
+                    </>
+
 
                     : null
                 )}

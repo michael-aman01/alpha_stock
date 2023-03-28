@@ -9,6 +9,8 @@ const storeCurrentUser = user => {
     else sessionStorage.removeItem("currentUser");
   }
 
+  
+
 
 
 
@@ -22,7 +24,7 @@ const storeCurrentUser = user => {
 
     const token = await response.headers.get("X-CSRFToken")
     storeCSRFToken(token)
-    return response;
+    return token;
   }
 
 export const loginUser = user  => {
@@ -49,10 +51,11 @@ export const test = sym => dispatch => {
 
 
 export const login = user => async dispatch => {
+    let token
     if(sessionStorage.getItem("X-CSRF-Token") === null){
-        const token = await restoreCSRF()
+        token = await restoreCSRF()
     }else{
-        const token = sessionStorage.getItem("X-CSRF-Token") 
+        token = sessionStorage.getItem("X-CSRF-Token") 
     }
     
     const res = await fetch("/api/session/login", {
@@ -60,13 +63,14 @@ export const login = user => async dispatch => {
         body: JSON.stringify(user),
         headers: {
             "Content-Type": "application/json",
-            "X-CSRF-Token": sessionStorage.getItem("X-CSRF-Token")
+            "X-CSRF-Token": token
         }
     })
 
     const data = await res.json()
     if(data){
-
+        console.log(data)
+    
         const token = await res.headers.get("X-CSRFToken")
         storeCSRFToken(token)
         storeCurrentUser(data)
@@ -91,35 +95,24 @@ export const logout = user => async dispatch => {
 
 
 
-export async function restoreSession() {
+export const restoreSession = () =>  async dispatch =>  {
 
-    if(sessionStorage.getItem("X-CSRF-Token") === null){
-        const token = await restoreCSRF()
-    }else{
-        const token = sessionStorage.getItem("X-CSRF-Token")
-    }
 
     const res = await fetch("/api/session/get_current", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            "X-CSRF-Tofken": sessionStorage.getItem("X-CSRF-Token")
+            "X-CSRF-Token": sessionStorage.getItem("X-CSRF-Token")
         }
     })
     const data = await res.json()
 
-    if(data){
-        console.log("here")
+    if(data.ok){
+        const token = await res.headers.get("X-CSRFToken")
+        storeCSRFToken(token)
         storeCurrentUser(data)
-        loginUser({"current_user": data})
+        dispatch(loginUser({"current_user": data}))
         return data
-    }else{
-        console.log(data)
-        sessionStorage.removeItem("currentUser")
-        sessionStorage.removeItem("X-CSRFToken")
-
-        logoutUser({})
-        return {"error":"unauthorized"}
     }
   };
 
@@ -129,7 +122,7 @@ export async function restoreSession() {
 export default function SessionReducer(initialState= {currentUser: null},action){
     switch(action.type){
         case LOGIN_USER:
-            return {...action.user}
+            return {currentUser: action.user}
         case LOGOUT_USER:
             return {current_user: null}
         default:

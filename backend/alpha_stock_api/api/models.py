@@ -13,6 +13,7 @@ class User(UserMixin,db.Model):
     password = db.Column(db.String(128),  nullable=True)
     password_hash = db.Column(db.String(128),  nullable=False, unique=True)
     session_token = db.Column(db.String(128),index=True, unique=True, nullable=False)
+    watchlist = db.Column(db.JSON, nullable=False,default=[])
     # created = db.Column(db.DateTime, default=func.now())
     def check_email(self,password):
         if len(password) < 6:
