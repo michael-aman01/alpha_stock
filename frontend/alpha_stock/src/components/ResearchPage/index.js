@@ -5,11 +5,12 @@ import { useDispatch, useSelector } from "react-redux"
 // import StatementChart from "../StatementChart"
 // import Searchbar from "../Searchbar"
 import SearchIndex from "../SearchIndex"
-import Watchlist from "../Watchlist"
+// import Watchlist from "../Watchlist"
 import SearchIndexItem from "../SearchIndexItem"
 import { fetchPriceData } from "../../store/stocks"
 import { compose } from "redux"
 import NavBar from "../NavBar"
+import { restoreSession } from "../../store/session"
 
 export default function ResearchPage(){
     const priceData = useSelector(state => Object.values(state.stocks.priceData).reverse()[0])
@@ -31,10 +32,10 @@ export default function ResearchPage(){
     const [about, setAbout] = useState()
     const [divYield, setDivYield] = useState()
 
-    const currentUser = useSelector(state => state.session.user)
+    const currentUser = useSelector(state => state.session.currentUser)
 
-    const [watchlist, setWatchlist] = useState()
-    const [watchlistPrices, setWatchlistPrices] = useState()
+    // const [watchlist, setWatchlist] = useState()
+    // const [watchlistPrices, setWatchlistPrices] = useState()
 
 
 
@@ -62,32 +63,37 @@ export default function ResearchPage(){
     },[priceData])
 
 
-    useEffect(() => {
-        if(currentUser !== undefined){
-            let list = currentUser.watchlist
-            currentUser.watchlist.map(sym => {
-                dispatch(fetchPriceData(sym))
-             })
-            setWatchlist(list)
-        }
-    },[currentUser])
+    // useEffect(() => {
+    //     if(currentUser !== undefined){
+    //         let list = currentUser.watchlist
+    //         currentUser.watchlist.map(sym => {
+    //             dispatch(fetchPriceData(sym))
+    //          })
+    //         setWatchlist(list)
+    //     }
+    // },[currentUser])
 
-    useEffect(() => {
-        if(prices && currentUser){
-            let watchListComponents = []
-            let listPrices = currentUser.watchlist.map(sym => {
+    // useEffect(() => {
+    //     if(prices && currentUser){
+    //         let watchListComponents = []
+    //         let listPrices = currentUser.watchlist.map(sym => {
            
-                watchListComponents.push([sym, prices[sym]])
+    //             watchListComponents.push([sym, prices[sym]])
 
-            })
+    //         })
         
-            setWatchlist(watchListComponents)
-        }
-    },[prices])
+    //         setWatchlist(watchListComponents)
+    //     }
+    // },[prices])
 
     const handleDuration = (e) => {
         e.preventDefault()
         setSelectedDuration(e.target.id)
+    }
+
+    const test = async e => {
+        const res = sessionStorage.getItem("currentUser")
+        console.log(res)
     }
 
 
@@ -99,7 +105,7 @@ export default function ResearchPage(){
          <div id="research-container">
          <div id="research-nav-left">
                     <h1>Watch List</h1>
-                    <Watchlist></Watchlist>
+                    {/* <Watchlist></Watchlist> */}
                 </div>
 
                 <div id="research-content-container">
@@ -122,6 +128,7 @@ export default function ResearchPage(){
                     <div id="research-info-container">
                         <div className="info-box">
                             <h1>Ratios</h1>
+                            <button onClick={test}></button>
                         </div>
                         <div id="info-spacer"></div>
                         

@@ -1,4 +1,4 @@
-import {login, register} from "../../store/session"
+import {login, logout, register} from "../../store/session"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
 import { NavLink, useNavigate } from "react-router-dom"
@@ -27,7 +27,7 @@ export default function LoginForm(){
     }
 
     const handleDemoLogin = (e) => {
-
+      console.log(sessionStorage.getItem("currentUser"))
     }
     return (
         <>
@@ -43,6 +43,8 @@ export default function LoginForm(){
         </div>
         <br></br>
         <div id="login-form-container">
+          <button onClick={handleDemoLogin}></button>
+          <button onClick={() => dispatch(logout())} label="logiu"></button>
         <div>
           <ul>
             {errors.map(err => <li>{err}</li>)}

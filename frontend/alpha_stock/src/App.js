@@ -1,10 +1,24 @@
 
-import { Route, Routes } from 'react-router-dom';
+import { useEffect, useState} from 'react';
+import { useSelector } from 'react-redux';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import LoginForm from './components/LoginForm';
 
 import NavBar from './components/NavBar'
 import ResearchPage from './components/ResearchPage';
 function App() {
+  const [currentUser,setCurrentUser] = useState()
+
+  useEffect(() => {
+    if(currentUser === undefined || currentUser === null){
+      if(sessionStorage.getItem("currentUser") !== null){
+        setCurrentUser(sessionStorage.getItem("currentUser"))
+      }
+    }
+  },[currentUser])
+
+
+  if(currentUser){
   return (
     <>
      
@@ -17,7 +31,7 @@ function App() {
   
 
     </>
-  );
-}
+  )
+}}
 
 export default App;

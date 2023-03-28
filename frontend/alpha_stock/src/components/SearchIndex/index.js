@@ -13,15 +13,13 @@ export default function SearchIndex(){
     const state = useSelector(state => state)
     const [watchlist, setWatchlist] = useState([])
 
-    useEffect(() => {
-    
-    })
-    useEffect(() => {
+
+    // useEffect(() => {
    
-        setSymbols(Object.keys(priceData))
-        setWatchlist(Object.keys(priceData))
+    //     setSymbols(Object.keys(priceData))
+    //     setWatchlist(Object.keys(priceData))
       
-    },[priceData, symbols])
+    // },[priceData, symbols])
 
 
 
