@@ -2,12 +2,12 @@ import "./SearchIndexItem.css"
 import {useSelector} from "react-redux"
 import { useEffect, useReducer, useState, useRef} from "react"
 import {Chart, registerables}from "chart.js";
-import { fetchCompanyInfo, fetchPriceData, updateWatchlist } from "../../store/stocks";
+import { fetchCompanyInfo, fetchPriceData } from "../../store/stocks";
 import { useDispatch } from "react-redux";
 // import { updateWatchlist } from "../../store/stocks"
 
 import PriceChart from "../PriceChart";
-import { restoreSession } from "../../store/session";
+import { restoreSession, updateWatchlist } from "../../store/session";
 import { setWeekYear } from "date-fns";
 
 
@@ -28,6 +28,7 @@ export default function SearchIndexItem({symbol, prices}){
  
 
     const graphRef = useRef()
+
 
 
 
@@ -80,6 +81,8 @@ export default function SearchIndexItem({symbol, prices}){
             console.log(updateUser)
             // updateUser.watchlist = [...watchlist, newSyms[0]]
             const res = await dispatch(updateWatchlist(updateUser))
+            
+            
             
         }
 

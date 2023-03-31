@@ -13,48 +13,57 @@ export default function Watchlist(){
     const session = useSelector(state => state.session)
     const priceData = useSelector(state => state.stocks.priceData)
     const stateStocks = useSelector(state => state.stocks)
+
     const [prices, setPrices] = useState([])
     const dispatch = useDispatch()
     const [watchlist, setWatchlist] = useState([])
     const currentUser = JSON.parse(sessionStorage.getItem("currentUser"))
     const [watchlistWidgets, setWatchlistWidgets] = useState([])
 
-
     useEffect(() => {
-        if(currentUser !== null){
-            setWatchlist(stateStocks.watchlist)
+        if(watchlist !== undefined && session.watchlist !== null){
+            setWatchlist(session.watchlist)
         }
     },[session])
 
-    useEffect(() => {
-        console.log("from watch",currentUser)
-    },[currentUser])
-
-    useEffect(() => {
-        if(watchlist.length >0 && priceData !== null){
-
-     
-        }
-    },[watchlist])
 
 
 
 
 
+   
+
+
+
+if(currentUser !== undefined && session.watchlist !== null && session.watchlist !== undefined){
     return (
-        <>
-        {
-            watchlist.map((sym, key) => 
-                <>
-                    <div id="search-item-container">
-                 
-                            <div>{watchlistWidgets}</div>
-                            
-                    </div>
-                </>
-            )
-        }
 
-        </>
-    )
+        
+        <>
+          <div id="right-search-pane">
+                <h1>Search Results</h1>
+
+            {
+                session.watchlist.map((sym, i) =>   
+     
+                <>
+                <div>{sym}</div>
+                                    {/* <SearchIndexItem symbol={sym} prices={priceData[sym]} currentUser={currentUser}></SearchIndexItem>  */}
+
+                </>
+
+
+
+            )}
+
+            </div>
+                </>
+
+)
+}else{
+    return( 
+    <>
+    <div>
+        DRAG AND DROP
+    </div></>)}
 }

@@ -17,28 +17,44 @@ export default function Banner(){
         if(currentUser !== null && tickers === null){
             setTickers(currentUser.watchlist)
             setDisplayText(currentUser.watchlist.join(" "))
-            const tags = currentUser.watchlist.map(sym => {return (<div class="tickerDiv">{sym}</div>)})
+            const tags = currentUser.watchlist.map(sym => {return (<div  class="tickerDiv">{sym}</div>)})
+           
             setTags(tags)
         }
     },[currentUser])
 
     useEffect(() => {
+    
+        const timeout = setTimeout(()=>{
+            const tags = document.getElementsByClassName("tickerDiv")
+            if(tags){
+                Array.from(tags).forEach((tag,indx) => {
+                    const currentMargin = tag.style.marginLeft
+                    if(currentMargin.length === 0){
+                        const currentMargin = tag.style.marginLeft
+                        //set at index range start
+                        const startingMargins = [...Array(tags.length).keys()].map(i => `${Math.ceil((parseInt(i)/tags.length).toFixed(2)*10)}%`)
+                        for(let i = 0; i < startingMargins.length; i++){
+                            tags[i].style.marginLeft = startingMargins[i]
+                            console.log(tags[i].style.marginLeft)
+                        }
+                    }else{
+                        
+                        const currentMargin =   parseInt(`${tag.style.marginLeft}`.split("%")[0])
+                        tag.style.marginLeft = `${currentMargin +1}%`
 
-        setTimeout(() => {
-            if(tickers !== null){
-                const container = document.getElementById("banner-container")
-                if(container !== undefined){
-                    
-                    let current = `${container.style.marginLeft}`
-                    let newMargin = current.split("%")[0] 
-                    container.style.marginLeft = `${currentX + 1}%`
-                    console.log(container.style.marginLeft)
-                    setCurrentX(currentX + 1)
-                }
-            }
-        },1000)
+                    }
 
-    },[currentX])
+                
+                })
+    
+                setCurrentX(currentX+1)
+            
+           }
+        },750)
+
+
+})
 
 
 

@@ -1,6 +1,6 @@
 import { compose } from "redux";
 
-
+const ADD_TO_WATCHLIST = 'stocks/ADD_TO_WATCHLIST'
 const LOGIN_USER = "session/LOGIN_USER"
 const LOGOUT_USER = "session/LOGOUT_USER"
 
@@ -10,6 +10,13 @@ const storeCurrentUser = user => {
   }
 
   
+  export const addToWatchList = (data) => {
+    return({
+        type: ADD_TO_WATCHLIST,
+        data: data.watchlist
+    })
+}
+
 
 
 
@@ -121,11 +128,38 @@ export const restoreSession = () =>  async dispatch =>  {
     }
   };
 
+  
+
+
+  export const updateWatchlist = user => async dispatch => {
+
+    const res = await fetch(`/api/users/watchlist/`, {
+        method: "POST",
+        body: JSON.stringify(user),
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": sessionStorage.getItem("X-CSRF-Token")
+        }
+    })
+    const data = await res.json()
+
+    if(data){
+        console.log(data)
+        await dispatch(addToWatchList(data))
+        return data
+    }
+}
 
 
 
-export default function SessionReducer(initialState= {currentUser: null},action){
+
+
+export default function SessionReducer(initialState= {currentUser: null, watchlist: null},action){
+    
     switch(action.type){
+        case ADD_TO_WATCHLIST:
+            console.log(action)
+            return {...initialState.currentUser, watchlist: action.data}
         case LOGIN_USER:
             return {currentUser: action.user}
         case LOGOUT_USER:

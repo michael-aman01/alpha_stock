@@ -1,5 +1,5 @@
 import {loginUser, restoreCSRF} from "./session"
-const ADD_TO_WATCHLIST = 'stocks/ADD_TO_WATCHLIST'
+
 
 const ADD_PRICE_DATA = 'stocks/ADD_PRICE_DATA'
 const ADD_COMPANY_INFO = 'stocks/ADD_COMPANY_INFO'
@@ -17,13 +17,6 @@ export const addCompanyInfo = (data,symbol) => {
         type: ADD_COMPANY_INFO,
         data,
         "symbol": symbol
-    })
-}
-
-export const addToWatchList = (data) => {
-    return({
-        type: ADD_TO_WATCHLIST,
-        data: data.watchlist
     })
 }
 
@@ -74,24 +67,6 @@ export const fetchWatchlist = userID => async dispatch => {
 }
 
 
-export const updateWatchlist = user => async dispatch => {
-
-    const res = await fetch(`/api/users/watchlist/`, {
-        method: "POST",
-        body: JSON.stringify(user),
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRF-Token": sessionStorage.getItem("X-CSRF-Token")
-        }
-    })
-    const data = await res.json()
-
-    if(data){
-        await dispatch(addToWatchList(data))
-        return data
-    }
-}
-
 
 
 //add fetch when you have access to api again
@@ -99,8 +74,7 @@ export const updateWatchlist = user => async dispatch => {
 export default function StocksReducer(initialState={info:{}, priceData:{}, watchlist: []},action){
     let newState = Object.freeze(initialState)
     switch(action.type){
-        case ADD_TO_WATCHLIST:
-            return {...newState, watchlist: [...newState.watchlist,...action.data.filter(sym => !newState.watchlist.includes(sym))]}
+
     
         case ADD_PRICE_DATA:
             if(Object.keys(newState.priceData).includes(action.symbol)){
