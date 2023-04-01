@@ -42,8 +42,9 @@ export default function Searchbar(){
                     resultContainer.setAttribute("id","search-results")
                 }
                 const filteredNames = names.filter(name => name[0] === currentQuery[0] && name.search(currentQuery) !== -1)
-                const filteredTickers = filteredNames.map(name => names.indexOf(name))
-                setSearchResults(filteredNames)
+                const filteredTickers = filteredNames.map(name => tickers[names.indexOf(name)])
+        
+                setSearchResults([...filteredNames,...filteredTickers])
             }
 
            
@@ -88,8 +89,9 @@ export default function Searchbar(){
                         <>
               
                           <div   className="result" onClick={(e) => handleSelection(e, tickers[names.indexOf(result)])}>
+                          <div>{result}</div>
                           <div >{tickers[names.indexOf(result)]}</div>
-                            <div>{result}</div>
+                
                           </div>
                         </>
                       

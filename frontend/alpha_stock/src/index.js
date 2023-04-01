@@ -9,6 +9,7 @@ import configureStore from './store/index';
 import { restoreCSRF, restoreSession } from './store/session';
 import * as sessionActions from "./store/session"
 import { useDispatch } from 'react-redux';
+import NewsFeed from './components/NewsFeed';
 let store = configureStore({});
 if (process.env.NODE_ENV !== 'production') {
   window.store = store;

@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux"
 import SearchIndex from "../SearchIndex"
 import Watchlist from "../Watchlist"
 import SearchIndexItem from "../SearchIndexItem"
-import { fetchPriceData,  fetchRatios } from "../../store/stocks"
+import { fetchPriceData,  fetchRatios, fetchNewsFeed} from "../../store/stocks"
 
 import NavBar from "../NavBar"
 import {
@@ -15,7 +15,7 @@ import {
     sentenceCase,
     snakeCase,
   } from "change-case";
-import { nextWednesday } from "date-fns"
+import NewsFeed from "../NewsFeed"
 
 export default function ResearchPage(){
     const priceData = useSelector(state => Object.values(state.stocks.priceData).reverse()[0])
@@ -37,10 +37,6 @@ export default function ResearchPage(){
     const [about, setAbout] = useState()
     const [divYield, setDivYield] = useState()
 
-    const currentUser = useSelector(state => state.session.currentUser)
-
-    const [watchlist, setWatchlist] = useState()
-    const [watchlistPrices, setWatchlistPrices] = useState()
     const currentRatios = useSelector(state => state.stocks.ratios)
     const [ratios, setRatios] = useState(null)
     const [currentStatements,  setCurrentStatements] = useState()
@@ -85,6 +81,7 @@ export default function ResearchPage(){
         console.log("price change",prices,info)
         if(info !== undefined){
             getPriceData(info.symbol)
+            handleNews()
         }
     },[priceData,info])
 
@@ -128,6 +125,10 @@ export default function ResearchPage(){
       
     }
 
+    const handleNews = () => {
+        dispatch(fetchNewsFeed(["aapl"]))
+    }
+
     return(
         <>
 
@@ -156,7 +157,7 @@ export default function ResearchPage(){
                         <div className="info-box">
                             <h1>Ratios</h1>
                             <div id="ratios-container">
-                                <div id="selected-ratio-container" className="info-box">
+                                <div id="selected-ratio-container">
                                     <ul id="ratios-list">
                                     {ratios !== null ? Object.keys(ratios).map(lineItem => (
                                         <div class="ratios-line-item">
@@ -224,15 +225,27 @@ export default function ResearchPage(){
                     <div id="stock-about-container">
                      
                         <div id="about-text-container">
-                        <h1>About</h1>
+                        <h1 style={{"color":"white","textDecoration":"underline"}}>About</h1>
                             {about === undefined ? null : about}</div>
                     </div>
                 </div> 
-                <div id="research-nav-right">
+                <div id="right-section-container">
+                <h1 style={{"color":"white","textDecoration":"underline"}}>Search Results</h1>
+                <div class="right-scroll-container">
                   
                   <SearchIndex></SearchIndex>
             
             </div>
+            <br></br>
+            <br></br>
+              <h1 style={{"color":"white","textDecoration":"underline"}}>Recent News</h1>
+         <div class="right-scroll-container">
+
+
+       
+                <NewsFeed symbol={"aapl"}></NewsFeed>
+        </div>
+        </div>
                 </div>
         </>
     )

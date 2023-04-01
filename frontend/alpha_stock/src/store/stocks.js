@@ -6,6 +6,9 @@ const ADD_PRICE_DATA = 'stocks/ADD_PRICE_DATA'
 const ADD_COMPANY_INFO = 'stocks/ADD_COMPANY_INFO'
 const ADD_STATEMENT = "stocks/ADD_STATEMENT"
 const ADD_RATIO_DATA = "stocks/ADD_RATIO_DATA"
+const ADD_NEWS_DATA = "stocks/ADD_NEWS_DATA"
+
+
 export const addPriceData = data => {
     return ({
         type: ADD_PRICE_DATA,
@@ -44,6 +47,14 @@ export const addRatioData = data => {
 }
 
 
+export const addNewsData = data => {
+    return ({
+        type: ADD_NEWS_DATA,
+        data: data
+    })
+}
+
+
 export const fetchPriceData = (symbol) => async dispatch => {
 
     const res = await fetch(`https://financialmodelingprep.com/api/v3/historical-price-full/${symbol}?period=quarter&apikey=${process.env.REACT_APP_API_KEY}`)
@@ -63,6 +74,8 @@ export const fetchCompanyInfo = (symbol) => async dispatch => {
         dispatch(addCompanyInfo(data,symbol))
     }
 }
+
+
 
 export const fetchRatios = (symbol) => async dispatch => {
 
@@ -121,10 +134,19 @@ export const updateWatchlist = user => async dispatch => {
 }
 
 
+export const fetchNewsFeed = symbols => async dispatch => {
+    const symsString = `${symbols.map(sym => sym.toUpperCase()).join(",")}`
+    const res = await fetch(`https://financialmodelingprep.com/api/v3/stock_news?&limit=50&tickers=${symsString}&page=0&apikey=${process.env.REACT_APP_API_KEY}`)
+    const data = await res.json()
+    if(data){
+        dispatch(addNewsData(data))
+        return data
+    }
+}
 
 //add fetch when you have access to api again
 const initialStatements = {"bs":{},"is":{},"cf":{}}
-export default function StocksReducer(initialState={info:{}, priceData:{}, statements:initialStatements,watchlist: [],ratios:{}},action){
+export default function StocksReducer(initialState={info:{}, priceData:{}, statements:initialStatements,watchlist: [],ratios:{}, news: {}},action){
     let newState = Object.freeze(initialState)
     switch(action.type){
         case ADD_TO_WATCHLIST:
@@ -144,13 +166,21 @@ export default function StocksReducer(initialState={info:{}, priceData:{}, state
             newState.info[action.symbol] = action.data[0]
             return newState
         case ADD_STATEMENT:
-            console.log(action.data)
-      
+       
             newState.statements[action.data.statementType][action.data.symbol] =  action.data.data
             return newState
+
         case ADD_RATIO_DATA:
-            console.log(action.data)
+  
             newState.ratios[action.data.symbol] = action.data.data
+            return newState
+
+        case ADD_NEWS_DATA:
+            
+            const syms = action.data.map(obj => obj.symbol)
+            newState.news["data"] = action.data
+            return newState
+            
         default:
             return initialState
     }
