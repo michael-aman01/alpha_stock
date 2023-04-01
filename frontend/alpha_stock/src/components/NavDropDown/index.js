@@ -14,7 +14,7 @@ import * as sessionActions from "../../store/session"
 export default function NavOptionsDropdown(){
     const dispatch = useDispatch();
     const user = useSelector(state => state.session.user)
-    console.log(user)
+ 
     const history = useNavigate()
 
     const [credential, setCredential] = useState('');

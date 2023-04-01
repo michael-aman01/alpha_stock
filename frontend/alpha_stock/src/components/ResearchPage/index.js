@@ -7,10 +7,15 @@ import { useDispatch, useSelector } from "react-redux"
 import SearchIndex from "../SearchIndex"
 import Watchlist from "../Watchlist"
 import SearchIndexItem from "../SearchIndexItem"
-import { fetchPriceData } from "../../store/stocks"
-import { compose } from "redux"
+import { fetchPriceData,  fetchRatios } from "../../store/stocks"
+
 import NavBar from "../NavBar"
-import { restoreSession } from "../../store/session"
+import {
+    camelCase,
+    sentenceCase,
+    snakeCase,
+  } from "change-case";
+import { nextWednesday } from "date-fns"
 
 export default function ResearchPage(){
     const priceData = useSelector(state => Object.values(state.stocks.priceData).reverse()[0])
@@ -36,80 +41,99 @@ export default function ResearchPage(){
 
     const [watchlist, setWatchlist] = useState()
     const [watchlistPrices, setWatchlistPrices] = useState()
+    const currentRatios = useSelector(state => state.stocks.ratios)
+    const [ratios, setRatios] = useState(null)
+    const [currentStatements,  setCurrentStatements] = useState()
+    const statements = useSelector(state => state.stocks.statements)
 
 
 
-    useEffect(() => {
-      
-        if(priceData !== undefined || priceData !== null){
+    async function getPriceData(sym){
+        if(prices !== undefined || prices !== null){
             try{
-   //from price fetch: 
-   setOpen(priceData[0].open.toFixed(2))
-   setHigh(priceData[0].high.toFixed(2))
-   setLow(priceData[0].low.toFixed(2))
-   setVolume(priceData[0].volume.toFixed(2))
-   const yearHigh = priceData.slice(0, 260).map(obj => obj.close)
-   setAnnualHigh(Math.max(...yearHigh).toFixed(2))
-   setAnnualLow(Math.min(...yearHigh).toFixed(2))
-   //from info fetch:
+                //from price fetch
+            
+                setOpen(prices[sym][0].open.toFixed(2))
+                setHigh(prices[sym][0].high.toFixed(2))
+                setLow(prices[sym][0].low.toFixed(2))
+                setVolume(prices[sym][0].volume.toFixed(2))
+                const yearHigh = prices[sym].slice(0, 260).map(obj => obj.close)
+                setAnnualHigh(Math.max(...yearHigh).toFixed(2))
+                setAnnualLow(Math.min(...yearHigh).toFixed(2))
+                // //from info fetch:
 
-   setAvgVolume(info.volAvg.toFixed(0))
-   setMarketCap(info.mktCap.toExponential(2))
-   setDivYield(info.lastDiv === undefined ? "N/A": (info.lastDiv/priceData[priceData.length-1].open.toFixed(2)).toFixed(4))
-   setAbout(info.description)
+                setAvgVolume(info.volAvg.toFixed(0))
+                setMarketCap(info.mktCap.toExponential(2))
+                setDivYield(info.lastDiv === undefined ? "N/A": (info.lastDiv/priceData[priceData.length-1].open.toFixed(2)).toFixed(4))
+                setAbout(info.description)
+                getRatios(sym)
 
             }catch(err){console.log(err)}
          
 
 
         }
-    },[priceData])
+    }
+    useEffect(() => {
+        if(currentStatements === undefined && statements !==  undefined){
+            setCurrentStatements(statements)
+        }
+    },[statements, currentStatements])
 
 
-    // useEffect(() => {
-    //     if(currentUser !== undefined){
-    //         let list = currentUser.watchlist
-    //         currentUser.watchlist.map(sym => {
-    //             dispatch(fetchPriceData(sym))
-    //          })
-    //         setWatchlist(list)
-    //     }
-    // },[currentUser])
+    useEffect(() => {
+        console.log("price change",prices,info)
+        if(info !== undefined){
+            getPriceData(info.symbol)
+        }
+    },[priceData,info])
 
-    // useEffect(() => {
-    //     if(prices && currentUser){
-    //         let watchListComponents = []
-    //         let listPrices = currentUser.watchlist.map(sym => {
-           
-    //             watchListComponents.push([sym, prices[sym]])
 
-    //         })
-        
-    //         setWatchlist(watchListComponents)
-    //     }
-    // },[prices])
+
+    
+
+
 
     const handleDuration = (e) => {
         e.preventDefault()
         setSelectedDuration(e.target.id)
+
     }
 
-    const test = async e => {
-        const res = sessionStorage.getItem("currentUser")
-        console.log(res)
+   
+
+
+    async function getRatios(sym){
+        if(!Object.keys(currentRatios).includes(sym)){
+            let res = await dispatch(fetchRatios(sym))
+            let data = res.data
+            let newRatios = {}
+            Object.keys(data).forEach(lineItem => {
+                if(data[lineItem] !== null){
+                    newRatios[sentenceCase(lineItem)] = data[lineItem].toFixed(2)
+                }
+            })
+            setRatios(newRatios)
+        }else{
+            let data = currentRatios[sym]
+            let newRatios = {}
+            Object.keys(data).forEach(lineItem => {
+                if(data[lineItem] !== null){
+                    newRatios[sentenceCase(lineItem)] = data[lineItem].toFixed(2)
+                }
+            })
+            setRatios(newRatios)
+        }
+        
+      
     }
-
-
 
     return(
         <>
 
             <NavBar></NavBar>
          <div id="research-container">
-         <div id="research-nav-left">
-                    <h1>Watch List</h1>
-                    <Watchlist></Watchlist>
-                </div>
+
 
                 <div id="research-content-container">
               <div>
@@ -131,11 +155,24 @@ export default function ResearchPage(){
                     <div id="research-info-container">
                         <div className="info-box">
                             <h1>Ratios</h1>
-                            <button onClick={test}></button>
+                            <div id="ratios-container">
+                                <div id="selected-ratio-container" className="info-box">
+                                    <ul id="ratios-list">
+                                    {ratios !== null ? Object.keys(ratios).map(lineItem => (
+                                        <div class="ratios-line-item">
+                                            <div>{lineItem}</div>
+                                            <div style={parseInt(ratios[lineItem]) < 0 ?{color: "red"}:{color: "green"}}>{ratios[lineItem]}</div>
+                                        </div>
+                                    )):null}
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                         <div id="info-spacer"></div>
-                        
+  
                         <div className="info-box" id="price-stats-container">
+               
+                                        
                             <div className="stats-col">
         
                                 <div className="stats-row">

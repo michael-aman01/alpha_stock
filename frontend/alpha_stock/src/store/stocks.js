@@ -1,9 +1,11 @@
+import { compose } from "redux"
 import {loginUser, restoreCSRF} from "./session"
 const ADD_TO_WATCHLIST = 'stocks/ADD_TO_WATCHLIST'
 
 const ADD_PRICE_DATA = 'stocks/ADD_PRICE_DATA'
 const ADD_COMPANY_INFO = 'stocks/ADD_COMPANY_INFO'
-
+const ADD_STATEMENT = "stocks/ADD_STATEMENT"
+const ADD_RATIO_DATA = "stocks/ADD_RATIO_DATA"
 export const addPriceData = data => {
     return ({
         type: ADD_PRICE_DATA,
@@ -27,11 +29,24 @@ export const addToWatchList = (data) => {
     })
 }
 
+export const addStatementData = data => {
+    return({
+        type: ADD_STATEMENT,
+        data: data
+    })
+}
+
+export const addRatioData = data => {
+    return({
+        type: ADD_RATIO_DATA,
+        data: data
+    })
+}
 
 
 export const fetchPriceData = (symbol) => async dispatch => {
 
-    const res = await fetch(`https://financialmodelingprep.com/api/v3/historical-price-full/${symbol}?apikey=${process.env.REACT_APP_API_KEY}`)
+    const res = await fetch(`https://financialmodelingprep.com/api/v3/historical-price-full/${symbol}?period=quarter&apikey=${process.env.REACT_APP_API_KEY}`)
     const data = await res.json()
     if(data){
         console.log(data)
@@ -48,6 +63,19 @@ export const fetchCompanyInfo = (symbol) => async dispatch => {
         dispatch(addCompanyInfo(data,symbol))
     }
 }
+
+export const fetchRatios = (symbol) => async dispatch => {
+
+    const res = await fetch(`https://financialmodelingprep.com/api/v3/ratios-ttm/${symbol}?apikey=${process.env.REACT_APP_API_KEY}`)
+    const data = await res.json()
+    if(data){
+
+        dispatch(addRatioData({"symbol": symbol, "data": data[0]}))
+        return {"symbol": symbol, "data": data[0]}
+    }
+}
+
+
 
 
 export const fetchWatchlist = userID => async dispatch => {
@@ -95,8 +123,8 @@ export const updateWatchlist = user => async dispatch => {
 
 
 //add fetch when you have access to api again
-
-export default function StocksReducer(initialState={info:{}, priceData:{}, watchlist: []},action){
+const initialStatements = {"bs":{},"is":{},"cf":{}}
+export default function StocksReducer(initialState={info:{}, priceData:{}, statements:initialStatements,watchlist: [],ratios:{}},action){
     let newState = Object.freeze(initialState)
     switch(action.type){
         case ADD_TO_WATCHLIST:
@@ -112,8 +140,17 @@ export default function StocksReducer(initialState={info:{}, priceData:{}, watch
             if(Object.keys(newState.info).includes(action.symbol)){
                 delete newState.info[action.symbol]
             }
+    
             newState.info[action.symbol] = action.data[0]
             return newState
+        case ADD_STATEMENT:
+            console.log(action.data)
+      
+            newState.statements[action.data.statementType][action.data.symbol] =  action.data.data
+            return newState
+        case ADD_RATIO_DATA:
+            console.log(action.data)
+            newState.ratios[action.data.symbol] = action.data.data
         default:
             return initialState
     }

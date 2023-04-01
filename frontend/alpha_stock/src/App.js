@@ -11,32 +11,14 @@ import Banner from './components/Banner';
 import { loginUser, restoreSession } from './store/session';
 
 function App() {
-  const user = useSelector(state => state.session.currentUser)
-  const [currentUser,setCurrentUser] = useState(user)
-  const session = useSelector(state => state.session)
-  const dispatch = useDispatch()
+  const navigate = useNavigate()
   useEffect(() => {
-    if(currentUser === undefined || currentUser === null){
-      if(sessionStorage.getItem("currentUser") !== null){
-        setCurrentUser(sessionStorage.getItem("currentUser"))
-        dispatch(loginUser(JSON.parse(sessionStorage.getItem("currentUser"))))
-      }else{
-          dispatch(restoreSession())
-          setCurrentUser(user)
-          
-        }
-    }
-
-  },[currentUser])
-
- 
-
-
+    navigate("/profile")
+  },[])
   return (
     <>
      
     <Routes>
-      <Route exact path="/login" Component={LoginForm}></Route>
       <Route exact path='/profile' Component={ResearchPage}></Route>
     </Routes>
 
