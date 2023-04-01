@@ -22,6 +22,9 @@ export default function PriceChart({duration, prices, companyInfo, chartType}) {
     const [currentChart, setCurrentChart] = useState()
     const chartRef = useRef(null);
     const [recentChange, setRecentChange] = useState()
+    const priceData = useSelector(state => state.stocks.priceData)
+    const [changeColor, setChangeColor] = useState()
+    const [symbol, setSymbol] = useState()
 
     const type = "line"
     let yType
@@ -189,6 +192,7 @@ export default function PriceChart({duration, prices, companyInfo, chartType}) {
             subsetData.push({'x': keys[i], 'y': priceData[i] })
         }
         setData(subsetData.reverse())
+    
       }
 
 
@@ -199,22 +203,45 @@ export default function PriceChart({duration, prices, companyInfo, chartType}) {
       if(currentChart !== undefined){
           currentChart.destroy()
       } 
-      getCurrentPrices()
+  
       const configs = getConfigs()
       setCurrentChart(new Chart(chartRef.current, configs))
-
     }
   },[chartRef.current, data, duration])
 
-  if(chartType === 'research'){
+
+    useEffect(() => {
+      if(companyInfo !== undefined && priceData !== undefined){
+        if(Object.keys(priceData).includes(companyInfo.symbol)){
+          const priceChange = priceData[companyInfo.symbol][1].change.toFixed(2)
+          const percentChange = priceData[companyInfo.symbol][0].changePercent.toFixed(2)
+          if(performance > 0){
+            setRecentChange(`- ${priceChange} (${percentChange}%) Today`)
+            setChangeColor("red")
+          }else{
+            setRecentChange(`${priceChange} (${percentChange}%) Today`)
+            setChangeColor("green")
+          }
+
+        }else{
+          console.log(prices)
+        }
+
+      }
+
+
+    },[companyInfo])
+
+
+  if(chartType === 'research' && companyInfo !== undefined && companyInfo !== null){
   return (
     <div id="price-chart-container">
       <div id="chart-description-container">
         {data !== undefined ? 
         <>
         <div>
-        <div style={{"font-size":"45px"}} id="chart-current-price"  className="chart-price-item">{`$${prices[0].close.toFixed(2)}`}</div>
-        <div style={{"font-size":"25px"}} className="chart-price-item" id="chart-percentage-change">{recentChange}</div>
+        <div style={{"font-size":"45px"}} id="chart-current-price"  className="chart-price-item">{`$${companyInfo.price}`}</div>
+        <div style={{"font-size":"25px", "color": changeColor }} className="chart-price-item" id="chart-percentage-change">{recentChange}</div>
         </div>
        
         </>

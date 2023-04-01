@@ -42,7 +42,7 @@ export default function SearchIndexItem({symbol, prices}){
 
     return (
         <>
-        <div id="search-item-container" onClick={(e) => handleSearchItemClick(e,symbol)}>
+        <div id="search-item-container" onClick={(e) => handleSearchItemClick(e, symbol)}>
             <div id="search-item-symbol">{symbol}</div>
 
             <PriceChart prices={prices} duration={"1Y"}></PriceChart>
