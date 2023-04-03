@@ -139,6 +139,9 @@ export const fetchNewsFeed = symbols => async dispatch => {
     const res = await fetch(`https://financialmodelingprep.com/api/v3/stock_news?&limit=50&tickers=${symsString}&page=0&apikey=${process.env.REACT_APP_API_KEY}`)
     const data = await res.json()
     if(data){
+        console.log(symbols[0])
+      
+        
         dispatch(addNewsData(data))
         return data
     }

@@ -81,7 +81,7 @@ export default function ResearchPage(){
         console.log("price change",prices,info)
         if(info !== undefined){
             getPriceData(info.symbol)
-            handleNews()
+            handleNews([info.symbol])
         }
     },[priceData,info])
 
@@ -126,16 +126,26 @@ export default function ResearchPage(){
     }
 
     const handleNews = () => {
-        dispatch(fetchNewsFeed(["aapl"]))
+       if(info !== undefined){
+        dispatch(fetchNewsFeed([info.symbol]))
+       }
     }
 
     return(
         <>
 
             <NavBar></NavBar>
+   
          <div id="research-container">
-
-
+  
+         <div id="right-section-container">
+                <h1 style={{"color":"white","textDecoration":"underline"}}>Recent News</h1>
+                <div class="right-scroll-container">
+                  
+                  <NewsFeed></NewsFeed>
+            
+            </div>
+            </div>
                 <div id="research-content-container">
               <div>
               
@@ -243,7 +253,7 @@ export default function ResearchPage(){
 
 
        
-                <NewsFeed symbol={"aapl"}></NewsFeed>
+     
         </div>
         </div>
                 </div>
