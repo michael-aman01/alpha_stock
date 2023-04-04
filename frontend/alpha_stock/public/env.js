@@ -10,6 +10,7 @@ window.env = {
   "npm_config_noproxy": "",
   "HOME": "/home/michael",
   "CHROME_DESKTOP": "code-url-handler.desktop",
+  "OLDPWD": "/home/michael/alpha_stock/frontend",
   "TERM_PROGRAM_VERSION": "1.76.2",
   "DESKTOP_SESSION": "ubuntu",
   "NVM_BIN": "/home/michael/.nvm/versions/node/v18.10.0/bin",

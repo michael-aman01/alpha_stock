@@ -17,6 +17,8 @@ import {
   } from "change-case";
 import NewsFeed from "../NewsFeed"
 
+
+
 export default function ResearchPage(){
     const priceData = useSelector(state => Object.values(state.stocks.priceData).reverse()[0])
     const prices = useSelector(state => state.stocks.priceData)
@@ -168,7 +170,7 @@ export default function ResearchPage(){
                         <div id="info-spacer"></div>
 
                     <div id="info-container-right">
-                        <div>
+                        <div id="stats-container">
                             <h1>Stats</h1>
                             <div className="info-box" id="price-stats-container">
                                 <div className="stats-col">
@@ -218,20 +220,18 @@ export default function ResearchPage(){
                                 </div>
                             
                         </div>
-                        <div>
+                    
                              <div id="about-text-container">
                                 <h1 style={{"color":"white","textDecoration":"underline"}}>About</h1>
                                     {about === undefined ? null : about}</div>
                             </div>
-                        </div>
+                     
            
                     </div>
  
                 </div> 
                 
-                <div id="statement-chart-container">
-                    {info === undefined ? null : <StatementChart symbol={info.symbol}></StatementChart>}
-                </div>
+             
                 </div>
 
                 <div id="right-section-container">

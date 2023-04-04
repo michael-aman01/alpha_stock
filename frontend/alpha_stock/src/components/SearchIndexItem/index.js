@@ -19,12 +19,7 @@ export default function SearchIndexItem({symbol, prices}){
     const [latestChange, setLatestChange] = useState()
     const [currentGraph, setCurrentGraph] = useState()
     const dispatch = useDispatch()
-    const session = useSelector(state => state.session)
-    const stateStocks = useSelector(state => state.stocks)
-    const [currentStocks, setCurrentStocks] = useState()
-    const [watchlist, setWatchlist] = useState()
-    const [newSyms, setNewSyms] = useState([])
-    const currentUser = JSON.parse(sessionStorage.getItem("currentUser"))
+
  
 
     const graphRef = useRef()

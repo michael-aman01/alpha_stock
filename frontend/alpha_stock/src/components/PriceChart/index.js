@@ -215,6 +215,8 @@ export default function PriceChart({duration, prices, companyInfo, chartType}) {
         if(Object.keys(priceData).includes(companyInfo.symbol)){
           const priceChange = priceData[companyInfo.symbol][1].change.toFixed(2)
           const percentChange = priceData[companyInfo.symbol][0].changePercent.toFixed(2)
+          console.log(companyInfo.symbol)
+
           if(percentChange < 0){
             setRecentChange(`- ${priceChange} (${percentChange}%) Today`)
             setChangeColor("red")

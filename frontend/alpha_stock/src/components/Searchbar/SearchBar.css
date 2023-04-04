@@ -39,8 +39,7 @@
 #search-bar-container {
     display: flex;
     width: 100%;
-    margin: auto;
-    
+    margin-left: 10%;
 }
 
 #search-exit {

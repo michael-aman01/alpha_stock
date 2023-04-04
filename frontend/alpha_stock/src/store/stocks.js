@@ -159,7 +159,7 @@ export const fetchStatement = (symbol, statementType) => async dispatch => {
     const data = await res.json()
     if(data){
         console.log(data)
-        dispatch(addStatementData({"data": addStatementData(data), "statementType":statementType, "symbol":symbol}))
+        dispatch(addStatementData({"data": data, "statementType":statementType, "symbol":symbol}))
         return data
     }
 }
@@ -180,18 +180,17 @@ export default function StocksReducer(initialState={info:{}, priceData:{}, state
             newState.priceData[action.data.symbol] = action.data.historical
             return {...newState}
         case ADD_COMPANY_INFO:
-            if(Object.keys(newState.info).includes(action.symbol)){
-                delete newState.info[action.symbol]
+            if(Object.keys(newState.info).includes(action.symbol.toUpperCase())){
+                delete newState.info[action.symbol.toUpperCase()]
             }
     
-            newState.info[action.symbol] = action.data[0]
+            newState.info[action.symbol.toUpperCase()] = action.data[0]
             return newState
         case ADD_STATEMENT:
             const statementType = action.data.statementType
             const statements = action.data.data.data
             const symbol = action.data.symbol
             newState.statements[statementType][symbol] = statements
-
             return newState
 
         case ADD_RATIO_DATA:
