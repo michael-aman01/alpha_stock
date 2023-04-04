@@ -17,10 +17,10 @@ export default function NavBar(){
          
 
                     <div id="social-media-container">
-                        <div class="social-icon">
+                        <div class="social-icon" onClick={() => window.open("https://www.linkedin.com/in/maman1/","_blank")}>
                                 <img height={50} width={50} src={linkedin}></img>
                             </div>
-                        <div class="social-icon">
+                        <div class="social-icon" onClick={() => window.open("https://github.com/michael-aman01/alpha_stock/tree/frontend","_blank")}>
                             <img height={50} width={50} src={github}></img>
                         </div>
                      

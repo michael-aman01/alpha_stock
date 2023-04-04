@@ -159,7 +159,7 @@ export default function ResearchPage(){
                     </div>
                     <div id="research-info-container">
                         <div className="info-box">
-                            <h1>Ratios</h1>
+                        <h1 style={{"color":"white","textDecoration":"underline"}}>Ratios</h1>
                             <div id="ratios-container">
                                 <div id="selected-ratio-container">
                                     <ul id="ratios-list">
@@ -177,7 +177,7 @@ export default function ResearchPage(){
 
                     <div id="info-container-right">
                         <div id="stats-container">
-                            <h1>Stats</h1>
+                        <h1 style={{"color":"white","textDecoration":"underline", "marginLeft":"1%"}}>Stats</h1>
                             <div className="info-box" id="price-stats-container">
                                 <div className="stats-col">
             
