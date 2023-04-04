@@ -8,7 +8,7 @@ import SearchIndex from "../SearchIndex"
 import Watchlist from "../Watchlist"
 import SearchIndexItem from "../SearchIndexItem"
 import { fetchPriceData,  fetchRatios, fetchNewsFeed} from "../../store/stocks"
-
+import StatementChart from "../StatementChart"
 import NavBar from "../NavBar"
 import {
     camelCase,
@@ -136,32 +136,18 @@ export default function ResearchPage(){
 
             <NavBar></NavBar>
    
-         <div id="research-container">
-  
-         <div id="right-section-container">
-                <h1 style={{"color":"white","textDecoration":"underline"}}>Recent News</h1>
-                <div class="right-scroll-container">
-                  
-                  <NewsFeed></NewsFeed>
-            
-            </div>
-            </div>
-                <div id="research-content-container">
-              <div>
-              
-              </div>
-                    <div id="research-chart">
+           <div id="research-container">
+            <div id="research-chart">
+                        <div>
                         <PriceChart duration={selectedDuration} prices={priceData} companyInfo={info} chartType={"research"}></PriceChart>
-            
-                    </div>
-              
-                    <div id="chart-button-container">
+                        </div>
+                       
+                        <div id="chart-button-container">
                         <button className="duration-button" onClick={handleDuration} id="MAX">MAX</button>
                         <button className="duration-button" onClick={handleDuration} id="1Y">1Y</button>
                         <button className="duration-button" onClick={handleDuration} id="6M">6M</button>
                         <button className="duration-button" onClick={handleDuration} id="1M">1M</button>
                         <button className="duration-button" onClick={handleDuration} id="1W">1W</button>
-     
                     </div>
                     <div id="research-info-container">
                         <div className="info-box">
@@ -180,83 +166,95 @@ export default function ResearchPage(){
                             </div>
                         </div>
                         <div id="info-spacer"></div>
-  
-                        <div className="info-box" id="price-stats-container">
-               
-                                        
-                            <div className="stats-col">
-        
-                                <div className="stats-row">
-                                    <div>Open: </div>
-                                    <div> {open === undefined ? null : open}</div>
-                                </div>
-                                <div className="stats-row">
-                                <div>High: </div>
-                                    <div> {high === undefined ? null : high}</div>
-                                    </div>
-                                <div className="stats-row">
-                                    <div>Low: </div>
-                                    <div> {low === undefined ? null : low}</div>
-                                </div>
-                            </div>
-                            <div className="stats-col">
-                                <div className="stats-row">
-                                    <div>Volume: </div>
-                                    <div> {volume === undefined ? null : volume}</div>
-                                </div>
-                                <div className="stats-row">
-                                    <div>Avg Volume: </div>
-                                    <div> {avgVolume === undefined ? null : avgVolume}</div>
-                                </div>
-                                <div className="stats-row">
-                                    <div>52 Wk High: </div>
-                                    <div> {annualHigh === undefined ? null : annualHigh}</div>
-                                </div>
 
-                            </div>
-                            <div className="stats-col">
-                                <div className="stats-row">
-                                        <div>52 Wk Low: </div>
-                                        <div> {annualLow === undefined ? null : annualLow}</div>
+                    <div id="info-container-right">
+                        <div>
+                            <h1>Stats</h1>
+                            <div className="info-box" id="price-stats-container">
+                                <div className="stats-col">
+            
+                                    <div className="stats-row">
+                                        <div>Open: </div>
+                                        <div> {open === undefined ? null : open}</div>
+                                    </div>
+                                    <div className="stats-row">
+                                    <div>High: </div>
+                                        <div> {high === undefined ? null : high}</div>
+                                        </div>
+                                    <div className="stats-row">
+                                        <div>Low: </div>
+                                        <div> {low === undefined ? null : low}</div>
+                                    </div>
                                 </div>
-                                <div className="stats-row">
-                                        <div>Div/Yield: </div>
-                                        <div> {divYield === undefined ? null : divYield}</div>
+                                <div className="stats-col">
+                                    <div className="stats-row">
+                                        <div>Volume: </div>
+                                        <div> {volume === undefined ? null : volume}</div>
+                                    </div>
+                                    <div className="stats-row">
+                                        <div>Avg Volume: </div>
+                                        <div> {avgVolume === undefined ? null : avgVolume}</div>
+                                    </div>
+                                    <div className="stats-row">
+                                        <div>52 Wk High: </div>
+                                        <div> {annualHigh === undefined ? null : annualHigh}</div>
+                                    </div>
+
                                 </div>
-                                <div className="stats-row">
-                                    <div>Market Cap: </div>
-                                    <br></br>
-                                    <div> {marketCap === undefined ? null : marketCap}</div>
+                                <div className="stats-col">
+                                    <div className="stats-row">
+                                            <div>52 Wk Low: </div>
+                                            <div> {annualLow === undefined ? null : annualLow}</div>
+                                    </div>
+                                    <div className="stats-row">
+                                            <div>Div/Yield: </div>
+                                            <div> {divYield === undefined ? null : divYield}</div>
+                                    </div>
+                                    <div className="stats-row">
+                                        <div>Market Cap: </div>
+                                        <br></br>
+                                        <div> {marketCap === undefined ? null : marketCap}</div>
+                                    </div>
                                 </div>
-                            </div>
                             
                         </div>
+                        <div>
+                             <div id="about-text-container">
+                                <h1 style={{"color":"white","textDecoration":"underline"}}>About</h1>
+                                    {about === undefined ? null : about}</div>
+                            </div>
+                        </div>
+           
                     </div>
-                    <div id="stock-about-container">
-                     
-                        <div id="about-text-container">
-                        <h1 style={{"color":"white","textDecoration":"underline"}}>About</h1>
-                            {about === undefined ? null : about}</div>
-                    </div>
+ 
                 </div> 
+                
+                <div id="statement-chart-container">
+                    {info === undefined ? null : <StatementChart symbol={info.symbol}></StatementChart>}
+                </div>
+                </div>
+
                 <div id="right-section-container">
                 <h1 style={{"color":"white","textDecoration":"underline"}}>Search Results</h1>
                 <div class="right-scroll-container">
                   
                   <SearchIndex></SearchIndex>
-            
-            </div>
-            <br></br>
-            <br></br>
-              <h1 style={{"color":"white","textDecoration":"underline"}}>Recent News</h1>
-         <div class="right-scroll-container">
-
-
-       
-     
-        </div>
-        </div>
                 </div>
+                <div id="news-container">
+                <h1 style={{"color":"white","textDecoration":"underline"}}>Latest News</h1>
+                <div class="right-scroll-container">
+                
+                  <NewsFeed></NewsFeed>
+              
+        
+            
+                </div>
+            </div>
+        
+            </div> 
+      
+        </div>
+    
         </>
     )
 }

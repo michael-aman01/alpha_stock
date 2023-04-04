@@ -9,7 +9,7 @@ import ResearchPage from './components/ResearchPage';
 
 import Banner from './components/Banner';
 import { loginUser, restoreSession } from './store/session';
-
+import StatementChart from './components/StatementChart';
 function App() {
   const navigate = useNavigate()
   useEffect(() => {

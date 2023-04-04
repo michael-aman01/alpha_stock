@@ -4,8 +4,40 @@
     box-sizing: border-box;
 
     display: flex;
+
+}
+
+#research-chart-container {
+    background-color: gray;
+}
+
+#search-container {
+    background-color: blue;
+    width: 100%;
+}
+#price-stats-container {
+    display: flex;
     justify-content: space-between;
-    margin-top: 2%;
+    height: 20%;
+}
+
+#info-container-right {
+    display: flex;
+    width: 100%;
+}
+#research-info-container {
+    display: flex;
+    justify-content: space-between;
+    height: 30%;
+    padding-top: 10px;
+    border-top: 1px solid gray;
+    background-color:black;
+    color: white;
+
+}
+
+#statement-chart-container {
+    border-top: 1px solid white;
 }
 
 #research-nav-left {
@@ -18,38 +50,51 @@
     flex-direction: column;
 }
 
+#research-chart-container {
+    background-color: gray;
+}
+#news-container {
 
-#research-content-container {
-
-    width: 100%;
     height: 100%;
-    margin-left: 2%;
-    background-color: black;
 }
-
-#research-logout-container{
-    height: 10%;
-    width: 33%;
-    margin-bottom: 10%;
-    background-color: black;
-}
-#research-chart {
-    height: 90%;
+#search-container {
+    background-color: blue;
     width: 100%;
-    background-color: black;
-    color: white;
+}
+#price-stats-container {
+    display: flex;
+    justify-content: space-between;
+    height: 20%;
 }
 
+#info-container-right {
+    display: flex;
+    width: 100%;
+}
 #research-info-container {
     display: flex;
     justify-content: space-between;
-    height: 40%;
+    height: 100%;
     padding-top: 10px;
     border-top: 1px solid gray;
     background-color:black;
     color: white;
 
 }
+
+#statement-chart-container {
+    border-top: 1px solid white;
+
+}
+
+
+#research-chart {
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    color: white;
+}
+
 
 .info-box {
   
@@ -66,7 +111,7 @@
     background-color: black;
     display: flex;
     padding: 1%;
-    height: 10%;
+    height: fit-content;
     justify-content: space-evenly;
 
 }
@@ -88,10 +133,7 @@
     margin-top: 1%;
 }
 
-#price-stats-container {
-    display: flex;
-    justify-content: space-between;
-}
+
 
 .stats-col{
  display: flex;   
@@ -126,7 +168,10 @@
 }
 
 #about-text-container {
-    padding: 50px;
+    padding: 2%;
+    font-size: 20px;
+    margin-bottom: 10%;
+    height: 100%;
 }
 
 
@@ -150,7 +195,7 @@
     display: flex;
 
     flex-direction: column;
-    height: 100%;
+    height: 90%;
     width: 100%;
     margin-right: 10%;
 }
@@ -210,9 +255,16 @@
 .right-scroll-container{
    
     color: white;
-    height: 80%;
-
+    height: 50%;
+    
     display: flex;
     margin-right:5%;
     overflow-y: scroll;
+}
+
+
+#left-section-container{
+    max-width: 20%;
+    margin-left: 1%;
+    
 }

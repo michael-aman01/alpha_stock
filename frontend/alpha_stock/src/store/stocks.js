@@ -146,9 +146,27 @@ export const fetchNewsFeed = symbols => async dispatch => {
         return data
     }
 }
+export const fetchStatement = (symbol, statementType) => async dispatch => {
+    const statementLabels = {
+            
+        "BS": 'balance-sheet-statement',
+        "IS": 'income-statement',
+        "CF": 'cash-flow-statement',
+
+    }
+    const label = statementLabels[statementType]
+    const res = await fetch(`https://financialmodelingprep.com/api/v3/${label}/${symbol}?apikey=${process.env.REACT_APP_API_KEY}`)
+    const data = await res.json()
+    if(data){
+        console.log(data)
+        dispatch(addStatementData({"data": addStatementData(data), "statementType":statementType, "symbol":symbol}))
+        return data
+    }
+}
+
 
 //add fetch when you have access to api again
-const initialStatements = {"bs":{},"is":{},"cf":{}}
+const initialStatements = {"BS":{},"IS":{},"CF":{}}
 export default function StocksReducer(initialState={info:{}, priceData:{}, statements:initialStatements,watchlist: [],ratios:{}, news: {}},action){
     let newState = Object.freeze(initialState)
     switch(action.type){
@@ -169,8 +187,11 @@ export default function StocksReducer(initialState={info:{}, priceData:{}, state
             newState.info[action.symbol] = action.data[0]
             return newState
         case ADD_STATEMENT:
-       
-            newState.statements[action.data.statementType][action.data.symbol] =  action.data.data
+            const statementType = action.data.statementType
+            const statements = action.data.data.data
+            const symbol = action.data.symbol
+            newState.statements[statementType][symbol] = statements
+
             return newState
 
         case ADD_RATIO_DATA:
