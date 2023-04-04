@@ -16,7 +16,7 @@ export default function NavBar(){
                 <img  height={150} width={150} src={siteIcon}></img>
                 </div>
               <div id="site-logo-text">
-                <span id="site-logo-text1">StockPicker</span>
+                <span id="site-logo-text1">AlphaStock</span>
                 <span id="site-logo-text2">JS</span>
               </div>
             </div>
