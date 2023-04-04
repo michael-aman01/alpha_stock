@@ -4,7 +4,7 @@ import symbols from '../../assets/symbols.json'
 import {fetchPriceData, fetchCompanyInfo} from "../../store/stocks"
 import {useDispatch, useSelector} from "react-redux"
 import { useParams, useNavigate} from "react-router-dom"
-
+import { capitalCase } from "change-case"
 export default function Searchbar(){
     const dispatch = useDispatch()
 
@@ -44,7 +44,7 @@ export default function Searchbar(){
                 const filteredNames = names.filter(name => name[0] === currentQuery[0] && name.search(currentQuery) !== -1)
                 const filteredTickers = filteredNames.map(name => tickers[names.indexOf(name)])
         
-                setSearchResults([...filteredNames,...filteredTickers])
+                setSearchResults(filteredNames)
             }
 
            
@@ -89,8 +89,8 @@ export default function Searchbar(){
                         <>
               
                           <div   className="result" onClick={(e) => handleSelection(e, tickers[names.indexOf(result)])}>
-                          <div>{result}</div>
-                          <div >{tickers[names.indexOf(result)]}</div>
+                          <div style={{"color":"yellow"}}>{capitalCase(result)}</div>
+                          <div >{tickers[names.indexOf(result)].toUpperCase()}</div>
                 
                           </div>
                         </>

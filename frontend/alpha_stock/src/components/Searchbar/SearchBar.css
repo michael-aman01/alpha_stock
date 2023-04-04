@@ -1,7 +1,7 @@
 #profile-search-bar{
-    width: 45%;
+    width: 55%;
     margin: auto;
-    margin-top: 0;
+    margin-top: 1%;
     height: 30px;
     border-radius: 20px;
     text-align: center;
@@ -31,6 +31,7 @@
     padding: 1%;
     width: auto;
     height: 100%;
+    font-size: 25px;
     background-color: black;
     color: white;
     list-style: none;
@@ -39,7 +40,7 @@
 #search-bar-container {
     display: flex;
     width: 100%;
-    margin-left: 10%;
+    margin-left: 5%;
 }
 
 #search-exit {

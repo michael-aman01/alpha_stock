@@ -160,7 +160,7 @@
     background-color: black;
     border-top: 1px solid gray;
     line-height: 1.6;
-    font-size: 19px;
+    font-size: 20px;
     line-height: 1.6;
     white-space: wrap;
     padding: 10%;
@@ -259,11 +259,13 @@
 .right-scroll-container{
    
     color: white;
-    height: 70%;
-    
+    height: 90%;
+
+
     display: flex;
     margin-right:5%;
     overflow-y: scroll;
+    border: 1px solid white;
 }
 
 
@@ -271,4 +273,11 @@
     max-width: 20%;
     margin-left: 1%;
     
+}
+.start-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    font-size: 40px;
 }

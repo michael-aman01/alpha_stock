@@ -228,7 +228,10 @@ export default function PriceChart({duration, prices, companyInfo, chartType}) {
         {data !== undefined ? 
         <>
         <div>
-        <div style={{"font-size":"45px"}} id="chart-current-price"  className="chart-price-item">{`$${companyInfo.price}`}</div>
+        <div style={{"font-size":"45px"}} id="chart-current-price"  className="chart-price-item">
+          <span>{`$${companyInfo.price}`} </span>
+          <span style={{"fontSize":"20px"}}>{companyInfo.currency}</span>
+          </div>
         <div style={{"font-size":"25px", "color": changeColor }} className="chart-price-item" id="chart-percentage-change">{recentChange}</div>
         </div>
        

@@ -137,7 +137,7 @@ export default function ResearchPage(){
         dispatch(fetchNewsFeed([info.symbol]))
        }
     }
-
+if(info){
     return(
         <>
 
@@ -151,6 +151,7 @@ export default function ResearchPage(){
                         </div>
                        
                         <div id="chart-button-container">
+                            <h2>Duration:</h2>
                         <button className="duration-button" onClick={handleDuration} id="MAX">MAX</button>
                         <button className="duration-button" onClick={handleDuration} id="1Y">1Y</button>
                         <button className="duration-button" onClick={handleDuration} id="6M">6M</button>
@@ -229,7 +230,7 @@ export default function ResearchPage(){
                     
                              <div id="about-text-container">
                                 <h1 style={{"color":"white","textDecoration":"underline"}}>About</h1>
-                                    {about === undefined ? null : about}</div>
+                                    {about === undefined ? "N/A": about}</div>
                             </div>
                      
            
@@ -263,4 +264,33 @@ export default function ResearchPage(){
     
         </>
     )
-}
+}else{
+    return(
+        <>
+            <NavBar></NavBar>
+            <div id="research-container">
+                <div id="research-chart"  class="start-text">
+                    <div  style={{"marginLeft":"10%"}}>SEARCH FOR A STOCK BY NAME IN THE SEARCH BAR ABOVE TO GET STARTED</div>
+                    <div style={{"marginLeft":"10%","color":"yellow"}}>(example: type "apple" to search for apple inc)</div>
+                </div>
+                <div id="right-section-container">
+                <h1 style={{"color":"white","textDecoration":"underline"}}>Search Results</h1>
+                <div class="right-scroll-container">
+                  
+                
+                </div>
+                <div id="news-container">
+                <h1 style={{"color":"white","textDecoration":"underline"}}>Latest News</h1>
+                <div class="right-scroll-container">
+                
+
+              
+        
+            
+                </div>
+            </div>
+            </div>
+            </div>
+        </>
+    )
+}}

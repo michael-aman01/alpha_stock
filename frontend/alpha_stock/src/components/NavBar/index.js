@@ -5,13 +5,21 @@ import "./NavBar.css"
 import Logo from "./site_logo.jpeg"
 import github from "./github-logo.svg"
 import linkedin from "./linkedin.png"
-
+import siteIcon from "./site_icon.png"
 export default function NavBar(){
     return(
         <>
             <div id="nav-container">
           
-            
+            <div id="nav-logo">
+                <div>
+                <img  height={150} width={150} src={siteIcon}></img>
+                </div>
+              <div id="site-logo-text">
+                <span id="site-logo-text1">StockPicker</span>
+                <span id="site-logo-text2">JS</span>
+              </div>
+            </div>
      
                  <Searchbar />
          
