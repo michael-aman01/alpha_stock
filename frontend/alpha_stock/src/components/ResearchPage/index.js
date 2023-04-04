@@ -22,7 +22,7 @@ import NewsFeed from "../NewsFeed"
 export default function ResearchPage(){
     const priceData = useSelector(state => Object.values(state.stocks.priceData).reverse()[0])
     const prices = useSelector(state => state.stocks.priceData)
-    const latest = useSelector(state => Object.keys(state.stocks.priceData))
+    const latest = useSelector(state => Object.keys(state.stocks.info))
     const info = useSelector(state => Object.values(state.stocks.info).reverse()[0])
     const [symbol, setSymbol] = useState()
     const dispatch = useDispatch()
@@ -50,7 +50,7 @@ export default function ResearchPage(){
         if(prices !== undefined || prices !== null){
             try{
                 //from price fetch
-            
+                
                 setOpen(prices[sym][0].open.toFixed(2))
                 setHigh(prices[sym][0].high.toFixed(2))
                 setLow(prices[sym][0].low.toFixed(2))
@@ -80,12 +80,17 @@ export default function ResearchPage(){
 
 
     useEffect(() => {
-        console.log("price change",prices,info)
+
         if(info !== undefined){
             getPriceData(info.symbol)
             handleNews([info.symbol])
         }
     },[priceData,info])
+
+    useEffect(() => {
+        console.log(latest)
+        console.log("latest",prices[latest[latest.length]])
+    },[latest])
 
 
 
@@ -141,7 +146,8 @@ export default function ResearchPage(){
            <div id="research-container">
             <div id="research-chart">
                         <div>
-                        <PriceChart duration={selectedDuration} prices={priceData} companyInfo={info} chartType={"research"}></PriceChart>
+                            {info === undefined ? null :     <PriceChart duration={selectedDuration} prices={prices[info.symbol]} companyInfo={info} chartType={"research"}></PriceChart>}
+                    
                         </div>
                        
                         <div id="chart-button-container">

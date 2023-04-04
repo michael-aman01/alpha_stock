@@ -25,6 +25,7 @@ export default function PriceChart({duration, prices, companyInfo, chartType}) {
     const priceData = useSelector(state => state.stocks.priceData)
     const [changeColor, setChangeColor] = useState()
     const [symbol, setSymbol] = useState()
+    
 
     const type = "line"
     let yType
@@ -34,22 +35,6 @@ export default function PriceChart({duration, prices, companyInfo, chartType}) {
         yType = "logarithmic"
     }
 
-    const getCurrentPrices = () => {
-
-      const priceDiff1 = prices[0].change.toFixed(2)
-      const percentDiff = prices[0].changePercent.toFixed(2)
-      const percentTag = document.getElementById("chart-percentage-change") 
-      if(percentDiff > 0){
-
-          percentTag.style.color = "green"
-          setRecentChange(`+${priceDiff1} (${percentDiff}%) Today`)
-      }else{
-
-          percentTag.style.color = "red"
-          setRecentChange(`${priceDiff1} (${percentDiff}%) Today`)
-      }
-
-    }
 
     const lineAnimation = () => {
         const totalDuration = 1000;
@@ -203,7 +188,7 @@ export default function PriceChart({duration, prices, companyInfo, chartType}) {
       if(currentChart !== undefined){
           currentChart.destroy()
       } 
-  
+      console.log("prices", priceData)
       const configs = getConfigs()
       setCurrentChart(new Chart(chartRef.current, configs))
     }
