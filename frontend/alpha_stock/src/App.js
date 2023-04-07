@@ -10,16 +10,24 @@ import ResearchPage from './components/ResearchPage';
 import Banner from './components/Banner';
 import { loginUser, restoreSession } from './store/session';
 import StatementChart from './components/StatementChart';
-function App() {
+import SignUpForm from './components/SignUpForm';
+
+
+function App({initialRoute}) {
   const navigate = useNavigate()
   useEffect(() => {
-    navigate("/profile")
+    if(initialRoute){
+      navigate(initialRoute)
+    }
+
   },[])
   return (
     <>
      
     <Routes>
       <Route exact path='/profile' Component={ResearchPage}></Route>
+     <Route exact path="/login" Component={LoginForm}></Route>
+     <Route exact path="/signup" Component={SignUpForm}></Route>
     </Routes>
 
 

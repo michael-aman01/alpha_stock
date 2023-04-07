@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, useNavigate } from 'react-router-dom';
 import configureStore from './store/index';
 import { restoreCSRF, restoreSession } from './store/session';
 import * as sessionActions from "./store/session"
@@ -18,34 +18,43 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 
-export default function Root(){
+const renderApplication = (route) => {
+  ReactDOM.render(
+    <React.StrictMode>
 
-  return(
-    <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </Provider>
-  )
+  <Provider store={store}>
+          <BrowserRouter>
+            <App initialRoute={route}/>
+          </BrowserRouter>
+        </Provider>
+
+    </React.StrictMode>,
+    document.getElementById('root')
+  );
+
 }
 
-const renderApplication = () => {
+async function checkUser(){
   
-ReactDOM.render(
-  <React.StrictMode>
-    <Root></Root>
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+  console.log("here")
+  const res = await store.dispatch(sessionActions.restoreSession())
+  alert(res)
+  if(res){
+    renderApplication()
+  }else{
+    console.log(res)
+    renderApplication("/login")
 
+  }
 }
 
-if(sessionStorage.getItem("X-CSRF-Token") === null || 
-sessionStorage.getItem("X-CSRF-Token") === undefined ||
-sessionStorage.getItem("X-CSRF-Token") === null|| 
-sessionStorage.getItem("currentUser") === undefined){
-  store.dispatch(restoreSession()).then(renderApplication())
-}else{
-  renderApplication()
+if (
+  sessionStorage.getItem("currentUser") === null ||
+  sessionStorage.getItem("X-CSRF-Token") === null 
+) {
+  checkUser()
+} else {
+  console.log("here")
+  renderApplication("/profile");
 }
 

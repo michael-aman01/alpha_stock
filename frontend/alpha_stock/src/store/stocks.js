@@ -1,5 +1,5 @@
 import { compose } from "redux"
-import {loginUser, restoreCSRF} from "./session"
+import {login, restoreSession} from "./session"
 const ADD_TO_WATCHLIST = 'stocks/ADD_TO_WATCHLIST'
 
 const ADD_PRICE_DATA = 'stocks/ADD_PRICE_DATA'
@@ -94,7 +94,7 @@ export const fetchRatios = (symbol) => async dispatch => {
 export const fetchWatchlist = userID => async dispatch => {
 
     if(sessionStorage.getItem("X-CSRF-Token") === null){
-        const token = await restoreCSRF()
+        const token = await restoreSession()
     }else{
         const token = sessionStorage.getItem("X-CSRF-Token")
     }
@@ -109,7 +109,7 @@ export const fetchWatchlist = userID => async dispatch => {
     const data = await res.json()
 
     if(data){
-        await dispatch(loginUser(data))
+        await dispatch(login(data))
         return data
     }
 }

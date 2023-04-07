@@ -21,8 +21,9 @@ export default function LoginForm(){
             password: password,
             email: email
         }
+        console.log(loginInfo)
         const res = dispatch(login(loginInfo))
-        navigate("/profile")
+        // navigate("/profile")
         
     }
 

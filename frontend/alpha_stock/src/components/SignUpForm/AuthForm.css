@@ -1,0 +1,227 @@
+#login-modal {
+  -webkit-box-pack: center;
+  -webkit-box-align: end;
+  -webkit-box-direction: normal;
+  -webkit-box-orient: horizontal;
+  z-index: 2000;
+  position: fixed;
+  inset: 0px;
+  max-height: calc(var(--vh, 1vh) * 100);
+  padding-top: calc(12px + env(safe-area-inset-top, 0));
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+  }
+
+
+  
+  #login-modal-background {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+  
+  #login-modal-content {
+    display: flex;
+    flex-direction: column;
+    height: 550px;
+    width: 400px;
+    margin-left: 40%;
+    margin-top: 0;
+    position: absolute;
+    background-color:white;
+    padding: 40px;
+    border-radius: 20px;
+
+  }
+
+
+  #signup-modal-content {
+    display: flex;
+    flex-direction: column;
+    height: 750px;
+    width: 400px;
+    margin-left: 33vw;
+    margin-top: 10%;
+    position: absolute;
+    background-color:white;
+    padding: 40px;
+    border-radius: 20px;
+
+  }
+
+
+#login-modal-title{
+
+  color: inherit;
+
+  line-height: inherit;
+  margin: 0px;
+  padding: 0px;
+}
+
+#login-modal-header{
+
+  display: flex;
+
+  align-items: center;
+  text-align: center;
+
+  
+  border-bottom: 1px solid rgb(235, 235, 235);
+  color: rgb(34, 34, 34);
+  margin-bottom: 20px;
+  justify-content: center;
+
+
+}
+
+#login-banner {
+  font-size: 25px;
+  font-weight: 600;
+
+}
+
+#close-modal-button-container {
+    position: absolute;
+    display: flex;
+    top: 16px;
+    left: 24px;
+    z-index: 1;
+    background-color: white;
+}
+
+
+#login-input-container {
+  position: relative;
+  cursor: text;
+  display: flex;
+  text-align: left;
+  min-height: 56px;
+  width: 100%;
+
+  border: none;
+  color: rgb(34, 34, 34);
+  background-color: rgb(255, 255, 255);
+  border-radius: 8px;
+  box-shadow: rgb(176 176 176) 0px 0px 0px 1px inset;
+
+  line-height: 20px;
+
+}
+
+
+.login-input-hidden-label{
+  margin-left: 10%;
+  opacity: 0%;
+
+}
+
+#login-input-container input {
+  width: 100%;
+  border: none;
+  outline: none;
+
+  text-align: left;
+
+  color: inherit;
+  background-color: transparent;
+
+
+  appearance: none;
+
+}
+
+#login-input-container input:focus {
+  background-color: transparent;
+}
+
+
+#login-close-modal-button-container {
+  position: absolute;
+  display: flex;
+  max-width: 40px;
+  top: 16px;
+  left: 24px;
+  z-index: 1;
+  background-color: white;
+}
+
+#login-submit-button {
+  cursor: pointer;
+  display: inline-block;
+  margin: 0px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  touch-action: manipulation;
+
+
+  line-height: var(---s-l-myu);
+
+  border-radius: 10px;
+  outline: none;
+  padding: 14px 24px;
+  -webkit-tap-highlight-color: transparent;
+  border: none;
+  background: linear-gradient(to right, rgb(230, 30, 77) 0%, rgb(227, 28, 95) 50%, rgb(215, 4, 102) 100%);
+  color: rgb(255, 255, 255);
+  width: 100%;
+
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow:  white inset !important;
+}
+
+#change-auth-container {
+  text-align: center;
+}
+
+
+#social-media-auth-link {
+  cursor: pointer;
+  display: flex;
+
+  margin: 10px;
+  position: relative;
+  text-decoration: none;
+
+
+
+  border-radius: 10px;
+  outline: none;
+  padding: 10px;
+  -webkit-tap-highlight-color: transparent;
+  border: none;
+  background-color: black;
+  color: rgb(255, 255, 255);
+  width: 100%;
+
+}
+
+
+#social-media-auth-link {
+  cursor: pointer;
+  display: flex;
+
+  margin: 10px;
+  position: relative;
+  text-decoration: none;
+
+  border-radius: 10px;
+  outline: none;
+  padding: 10px;
+  -webkit-tap-highlight-color: transparent;
+  border: none;
+
+  width: 100%;
+
+}
